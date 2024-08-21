@@ -1,0 +1,28 @@
+- name: Setup Postfix
+  hosts: mail-server
+  tasks:
+  - name: Create mail-server account
+    ansible.builtin.group:
+      name: services
+      system: yes
+    
+    ansible.builtin.user:
+      name: mail
+      group: services
+  
+  - name: Tasks to Execute as 'mail'
+    block:
+      - name: Install Postfix and Mailutils
+        ansible.builtin.apt:
+          pkg:
+            - postfix 
+            - mailutils
+      
+      - name: Start the Postfix service
+        ansible.builtin.systemd_service:
+          name: postfix
+          enabled: yes
+          state: started
+      
+    become: yes
+    become_user: mail
