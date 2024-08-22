@@ -1,7 +1,7 @@
 - name: Setup Postfix
   hosts: mail-server
   tasks:
-  - name: Setup Group and User
+  - name: Setup Group and Users
     block:
     - name: Create services group
       ansible.builtin.group:
@@ -15,6 +15,17 @@
         groups: 
           - services
 
+    - name: Create Test Users
+      ansible.builtin.user:
+        name: "{{ item }}"
+        password: "{{ item | password_hash('sha512') }}"
+      loop:
+        - alice
+        - bob
+        - carol
+        - david
+        - eve
+    
     become: yes
 
   - name: Update & Install Packages
