@@ -3,9 +3,9 @@
 
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "hasicorp/bionic64"
+  config.vm.box = "ubuntu/jammy64"
 
-  machines = ["forward-proxy", "redis-db", "ftp-server", "mail-server"]
+  machines = ["mail-server"]
   
   machines.each do |machine_name|
     config.vm.define machine_name do |cfg|
