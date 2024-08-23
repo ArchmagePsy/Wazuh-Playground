@@ -33,8 +33,6 @@
     - name: Update Package Lists
       ansible.builtin.apt:
         update_cache: yes
-
-      become: yes
     
     - name: Install Packages
       ansible.builtin.apt:
@@ -43,7 +41,7 @@
           - acl 
           - mailutils
 
-      become: yes
+    become: yes
   
   - name: Start the Postfix service
     ansible.builtin.systemd_service:

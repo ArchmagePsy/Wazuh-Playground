@@ -5,7 +5,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu/jammy64"
 
-  machines = ["mail-server"]
+  machines = ["mail-server", "ftp-server"]
   
   machines.each do |machine_name|
     config.vm.define machine_name do |cfg|

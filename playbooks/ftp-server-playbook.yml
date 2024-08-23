@@ -1,0 +1,50 @@
+- name: Setup FTP
+  hosts: ftp-server
+  become: yes
+  tasks:
+  - name: Update & Install Packages
+    block:
+    - name: Update Package Lists
+      ansible.builtin.apt:
+        update_cache: yes
+    
+    - name: Install Packages
+      ansible.builtin.apt:
+        pkg:
+          - acl
+          - vsftpd
+
+  - name: Copy FTP Config to Server
+    ansible.builtin.copy:
+      src: ../ftp-server/vsftpd.conf
+      dest: /etc/vsftpd.conf
+
+  - name: Secure FTP
+    block:
+    - name: Generate Private Key
+      ansible.builtin.openssl_privatekey:
+        path: /etc/ssl/certs/ftp-server.key
+        size: 4096
+
+    - name: Generate CSR
+      ansible.builtin.openssl_csr:
+        path: /srv/ftp/ftp-server.csr
+        privatekey_path: /etc/ssl/certs/ftp-server.key
+
+    - name: Sign a New Certificate
+      ansible.builtin.openssl_certificate:
+        provider: selfsigned
+        path: /etc/ssl/certs/ftp-server-cert.pem
+        privatekey_path: /etc/ssl/certs/ftp-server.key
+        csr_path: /srv/ftp/ftp-server.csr
+
+    - name: Fetch Certificate
+      ansible.builtin.fetch:
+        src: /etc/ssl/certs/ftp-server-cert.pem
+        dest: ../ftp-server/ftp-server-cert.pem
+
+  - name: Start FTP Service
+    ansible.builtin.service:
+      name: vsftpd
+      enabled: yes
+      state: restarted
