@@ -14,10 +14,19 @@
           - acl
           - redis
 
-  - name: Copy Redis Config to Server
-    ansible.builtin.copy:
-      src: ../redis-db/redis.conf
-      dest: /etc/redis.conf
+  - name: Configure Redis
+    block:
+    - name: Copy Redis Config to Server
+      ansible.builtin.copy:
+        src: ../redis-db/redis.conf
+        dest: /etc/redis/redis.conf
+
+    - name: Copy Redis ACL to Server
+      ansible.builtin.copy:
+        src: ../redis-db/users.acl
+        dest: /etc/redis/users.acl
+
+    become_user: redis
 
   - name: Start Redis Service
     ansible.builtin.service:

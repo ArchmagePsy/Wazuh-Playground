@@ -1,0 +1,3 @@
+user default on -@all +@connection nopass
+user alice on +@connection +@keyspace >alice
+user bob on +@connection +@read >bob
