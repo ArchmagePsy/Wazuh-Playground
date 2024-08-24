@@ -41,7 +41,7 @@
     - name: Fetch Certificate
       ansible.builtin.fetch:
         src: /etc/ssl/certs/ftp-server-cert.pem
-        dest: ../ftp-server/ftp-server-cert.pem
+        dest: ../ftp-server/
 
   - name: Create Test Users
     ansible.builtin.user:
