@@ -1,0 +1,27 @@
+- name: Setup Nginx
+  hosts: forward-proxy
+  become: yes
+  tasks:
+  - name: Update & Install Packages
+    block:
+    - name: Update Package Lists
+      ansible.builtin.apt:
+        update_cache: yes
+    
+    - name: Install Packages
+      ansible.builtin.apt:
+        pkg:
+          - acl
+          - nginx
+
+  - name: Copy Configurations to Proxy
+    ansible.builtin.copy:
+      src: ../forward-proxy/*.conf
+      dest: /etc/nginx/conf.d/
+
+  - name: Start Nginx
+    ansible.builtin.service:
+      name: nginx
+      enabled: yes
+      state: restarted
+      
