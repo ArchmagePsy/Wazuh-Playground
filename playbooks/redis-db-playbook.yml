@@ -1,0 +1,26 @@
+- name: Setup Redis
+  hosts: redis-db
+  become: yes
+  tasks:
+  - name: Update & Install Packages
+    block:
+    - name: Update Package Lists
+      ansible.builtin.apt:
+        update_cache: yes
+    
+    - name: Install Packages
+      ansible.builtin.apt:
+        pkg:
+          - acl
+          - redis
+
+  - name: Copy Redis Config to Server
+    ansible.builtin.copy:
+      src: ../redis-db/redis.conf
+      dest: /etc/redis.conf
+
+  - name: Start Redis Service
+    ansible.builtin.service:
+      name: redis
+      enabled: yes
+      state: restarted
