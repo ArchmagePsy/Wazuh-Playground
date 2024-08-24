@@ -43,6 +43,14 @@
         src: /etc/ssl/certs/ftp-server-cert.pem
         dest: ../ftp-server/ftp-server-cert.pem
 
+  - name: Create Test Users
+    ansible.builtin.user:
+        name: "{{ item }}"
+        password: "{{ item | password_hash('sha512') }}"
+    loop:
+      - alice
+      - bob
+
   - name: Start FTP Service
     ansible.builtin.service:
       name: vsftpd
