@@ -18,6 +18,9 @@ networking = {
   "wazuh-manager" => [
     [:private_network, "192.0.1.21", "wazuh-manager-agents", "255.255.255.240"],
     [:private_network, "192.0.1.33", "wazuh-internal", "255.255.255.240"],
+  ],
+  "wazuh-indexer" => [
+    [:private_network, "192.0.1.34", "wazuh-internal", "255.255.255.240"]
   ]
 }
 
@@ -26,7 +29,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu/jammy64"
 
-  machines = ["wazuh-manager", "mail-server", "ftp-server", "redis-db", "forward-proxy"]
+  machines = ["wazuh-indexer", "wazuh-manager", "mail-server", "ftp-server", "redis-db", "forward-proxy"]
   
   machines.each do |machine_name|
     config.vm.define machine_name do |cfg|
@@ -34,9 +37,16 @@ Vagrant.configure("2") do |config|
         cfg.vm.network subnet[0], ip: subnet[1], virtualbox__intnet: subnet[2], netmask: subnet[3]
       end
 
+      cfg.vm.provider :virtualbox do |vbox|
+        if machine_name == "wazuh-indexer" then
+          vbox.memory = 4096
+        end
+      end
+
       cfg.vm.provision :ansible do |ansible|
         ansible.playbook = "playbooks/#{machine_name}-playbook.yml"
       end
+
     end
   end
 
