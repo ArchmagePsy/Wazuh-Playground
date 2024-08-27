@@ -15,7 +15,7 @@ networking = {
     [:private_network, "192.0.1.4", "services-internal", "255.255.255.240"],
     [:private_network, "192.0.1.20", "wazuh-manager-agents", "255.255.255.240"]
   ],
-  "manager" => [
+  "wazuh-manager" => [
     [:private_network, "192.0.1.21", "wazuh-manager-agents", "255.255.255.240"],
     [:private_network, "192.0.1.33", "wazuh-internal", "255.255.255.240"],
   ]
@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu/jammy64"
 
-  machines = ["manager", "mail-server", "ftp-server", "redis-db", "forward-proxy"]
+  machines = ["wazuh-manager", "mail-server", "ftp-server", "redis-db", "forward-proxy"]
   
   machines.each do |machine_name|
     config.vm.define machine_name do |cfg|
