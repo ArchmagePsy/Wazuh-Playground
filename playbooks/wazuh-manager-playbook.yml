@@ -1,7 +1,9 @@
 - name: "Setup Wazuh Manager and Filebeat"
   hosts: wazuh-manager
+  become: yes
+  become_user: root
   roles:
     - role: ../wazuh-ansible/roles/wazuh/ansible-wazuh-manager
-    - role: ../wazuh-ansible/roles/wazuh/ansible-wazuh-filebeat-oss
+    - role: ../wazuh-ansible/roles/wazuh/ansible-filebeat-oss
       filebeat_output_indexer_hosts:
       - "192.0.1.34:9200"

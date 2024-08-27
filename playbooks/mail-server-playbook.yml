@@ -1,5 +1,6 @@
 - name: Setup Postfix
   hosts: mail-server
+  become: yes
   roles:
     - role: ../wazuh-ansible/roles/wazuh/ansible-wazuh-agent
   vars:
