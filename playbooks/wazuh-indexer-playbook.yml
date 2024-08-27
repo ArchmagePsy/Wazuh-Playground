@@ -23,7 +23,7 @@
 
   vars:
     single_node: true
-    indexer_network_host: 127.0.0.1
+    indexer_network_host: 192.0.1.34
     ansible_shell_allow_world_readable_temp: true
     instances:
       node1:

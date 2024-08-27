@@ -1,0 +1,9 @@
+- name: Setup Wazuh Dashboard
+  hosts: wazuh-dashboard
+  become: yes
+  become_user: root
+  roles:
+    - role: ../wazuh-ansible/roles/wazuh/wazuh-dashboard
+  vars:
+    indexer_network_host: 192.0.1.34
+    ansible_shell_allow_world_readable_temp: true

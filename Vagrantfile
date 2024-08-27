@@ -21,6 +21,9 @@ networking = {
   ],
   "wazuh-indexer" => [
     [:private_network, "192.0.1.34", "wazuh-internal", "255.255.255.240"]
+  ],
+  "wazuh-dashboard" => [
+    [:private_network, "192.0.1.35", "wazuh-internal", "255.255.255.240"]
   ]
 }
 
@@ -29,7 +32,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu/jammy64"
 
-  machines = ["wazuh-indexer", "wazuh-manager", "mail-server", "ftp-server", "redis-db", "forward-proxy"]
+  machines = ["wazuh-indexer", "wazuh-manager", "mail-server", "ftp-server", "redis-db", "forward-proxy", "wazuh-dashboard"]
   
   machines.each do |machine_name|
     config.vm.define machine_name do |cfg|
