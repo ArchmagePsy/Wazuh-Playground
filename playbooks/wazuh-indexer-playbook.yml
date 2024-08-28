@@ -28,5 +28,5 @@
     instances:
       node1:
         name: node-1
-        ip: 127.0.0.1
+        ip: 192.0.1.34
         role: indexer

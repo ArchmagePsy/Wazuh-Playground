@@ -6,4 +6,12 @@
     - role: ../wazuh-ansible/roles/wazuh/wazuh-dashboard
   vars:
     indexer_network_host: 192.0.1.34
+    indexer_cluster_nodes:
+      - 192.0.1.34
     ansible_shell_allow_world_readable_temp: true
+    wazuh_api_credentials:
+      - id: "default"
+        url: "https://192.0.1.33"
+        port: 55000
+        username: "wazuh"
+        password: "wazuh"

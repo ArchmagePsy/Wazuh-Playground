@@ -36,6 +36,12 @@ Vagrant.configure("2") do |config|
   
   machines.each do |machine_name|
     config.vm.define machine_name do |cfg|
+      cfg.vm.hostname = machine_name
+
+      if machine_name == "wazuh-dashboard" then
+        cfg.vm.network :forwarded_port, guest: 443, host: 8080
+      end
+
       networking[machine_name].each do |subnet|
         cfg.vm.network subnet[0], ip: subnet[1], virtualbox__intnet: subnet[2], netmask: subnet[3]
       end
@@ -44,6 +50,8 @@ Vagrant.configure("2") do |config|
         if machine_name == "wazuh-indexer" then
           vbox.memory = 4096
         end
+
+        vbox.name = "wazuh_playground-#{machine_name}"
       end
 
       cfg.vm.provision :ansible do |ansible|

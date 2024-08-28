@@ -4,6 +4,12 @@
   roles:
     - role: ../wazuh-ansible/roles/wazuh/ansible-wazuh-agent
   vars:
+    wazuh_agent_authd:
+      registration_address: 192.0.1.21
+      enable: true
+      port: 1515
+      ssl_agent_ca: null
+      ssl_auto_negotiate: 'no'
     wazuh_managers:
       - address: 192.0.1.21
         port: 1514
